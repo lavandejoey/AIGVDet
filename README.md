@@ -7,7 +7,7 @@ An official implementation code for paper "AI-Generated Video Detection via Spat
 ## Dataset 
 - Download the preprocessed training frames from
 [Baiduyun Link](https://pan.baidu.com/s/17xmDyFjtcmNsoxmUeImMTQ?pwd=ra95) (extract code: ra95).
-- Download the test videos from [Baiduyun Link](https://pan.baidu.com/s/1cGlvGcCMSsovZiSqao_vTg?pwd=ujs3)(extract code: ujs3).
+- Download the test videos from [Google Drive](https://drive.google.com/drive/folders/1D84SRWEJ8BK8KBpTMuGi3BUM80mW_dKb?usp=sharing).
 
 **You are allowed to use the datasets for <B>research purpose only</B>.**
 
