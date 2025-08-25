@@ -1,6 +1,6 @@
 import numpy as np
 
-from utils1.trainer import Trainer
+from .utils1.trainer import Trainer
 
 
 class EarlyStopping:
@@ -21,7 +21,8 @@ class EarlyStopping:
         self.counter = 0
         self.best_score = None
         self.early_stop = False
-        self.score_max = -np.Inf
+        # self.score_max = -np.Inf deprecated
+        self.score_max = -np.inf
         self.delta = delta
 
     def __call__(self, score: float, trainer: Trainer):

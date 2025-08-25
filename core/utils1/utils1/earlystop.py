@@ -21,13 +21,15 @@ class EarlyStopping:
         self.counter = 0
         self.best_score = None
         self.early_stop = False
-        self.score_max = -np.Inf
+        # self.score_max = -np.Inf deprecated
+        self.score_max = -np.inf
         self.delta = delta
 
     def __call__(self, score: float, trainer: Trainer):
         if self.best_score is None:
             self.best_score = score
             self.save_checkpoint(score, trainer)
+            self.counter = 0
         elif score < self.best_score - self.delta:
             self.counter += 1
             print(f"EarlyStopping counter: {self.counter} out of {self.patience}")

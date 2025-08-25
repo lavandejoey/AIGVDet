@@ -13,7 +13,7 @@ from PIL import Image, ImageFile
 from scipy.ndimage import gaussian_filter
 from torch.utils.data.sampler import WeightedRandomSampler
 
-from utils1.config import CONFIGCLASS
+from .utils1.config import CONFIGCLASS
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -32,7 +32,14 @@ def binary_dataset(root: str, cfg: CONFIGCLASS):
     rz_func = identity_transform
     
     if cfg.isTrain:
+        # Add a resize transform before cropping to ensure images are large enough
+        resize_func = transforms.Resize((448, 448))
         crop_func = transforms.RandomCrop((448,448))
+        # Compose the transforms so that resize happens before crop
+        transform = transforms.Compose([
+            resize_func,
+            crop_func,
+        ])
     else:
         crop_func = transforms.CenterCrop((448,448)) if cfg.aug_crop else identity_transform
 
@@ -49,7 +56,7 @@ def binary_dataset(root: str, cfg: CONFIGCLASS):
                 rz_func,
                 #change
                 transforms.Lambda(lambda img: blur_jpg_augment(img, cfg)),
-                crop_func,
+                transform,
                 flip_func,
                 transforms.ToTensor(),
                 transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])

@@ -159,7 +159,10 @@ if __name__=="__main__":
                             prob = model_or(in_tens).sigmoid().item()
                             original_prob_sum+=prob
                             
-                        df1 = df1.append({'original_path': img_path, 'original_pro': prob , 'flag':flag}, ignore_index=True)
+                        # df1 = df1.append({'original_path': img_path, 'original_pro': prob , 'flag':flag}, ignore_index=True)
+                        df1 = pd.concat(
+                            [df1, pd.DataFrame([{'original_path': img_path, 'original_pro': prob, 'flag': flag}])],
+                            ignore_index=True)
                         
                         
                     original_predict=original_prob_sum/len(original_file_list)
@@ -203,7 +206,10 @@ if __name__=="__main__":
                         p+=1
                         if predict>=args.threshold:
                             tp+=1
-                    df = df.append({'name': subsubfolder_name, 'pro': predict , 'flag':flag ,'optical_pro':optical_predict,'original_pro':original_predict}, ignore_index=True)
+                    # df = df.append({'name': subsubfolder_name, 'pro': predict , 'flag':flag ,'optical_pro':optical_predict,'original_pro':original_predict}, ignore_index=True)
+                    df = pd.concat([df, pd.DataFrame(
+                        [{'name': subsubfolder_name, 'pro': predict, 'flag': flag, 'optical_pro': optical_predict,
+                          'original_pro': original_predict}])], ignore_index=True)
         else:
             print("Subfolder does not exist:", original_subfolder_path)
     # r_acc = accuracy_score(y_true[y_true == 0], y_pred[y_true == 0] > args.threshold)

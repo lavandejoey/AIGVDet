@@ -44,12 +44,18 @@ def viz(img, flo, folder_optical_flow_path, imfile1):
 
 
     # print(folder_optical_flow_path)
-    parts=imfile1.rsplit('\\',1)
-    content=parts[1]
-    folder_optical_flow_path=folder_optical_flow_path+'/'+content.strip()
-    print(folder_optical_flow_path)
-    cv2.imwrite(folder_optical_flow_path, flo)
-
+    # parts=imfile1.rsplit('\\',1)
+    # content=parts[1]
+    # folder_optical_flow_path=folder_optical_flow_path+'/'+content.strip()
+    # print(folder_optical_flow_path)
+    # cv2.imwrite(folder_optical_flow_path, flo)
+    ####################
+    # Get the base filename from the path in an OS-independent way
+    filename = os.path.basename(imfile1)
+    # Correctly join the folder path and the filename
+    output_path = os.path.join(folder_optical_flow_path, filename.strip())
+    print(output_path)
+    cv2.imwrite(output_path, flo)
 
 def video_to_frames(video_path, output_folder):
     if not os.path.exists(output_folder):
@@ -137,6 +143,8 @@ if __name__ == '__main__':
     parser.add_argument("--arch", type=str, default="resnet50")
     parser.add_argument("--aug_norm", type=str2bool, default=True)
     args = parser.parse_args()
+
+    print(args)
 
     OF_gen(args)
 
