@@ -41,14 +41,23 @@ source /home/infres/ziyliu-24/miniconda3/etc/profile.d/conda.sh
 conda activate antifake310
 export PYTHONPATH="${PYTHONPATH:-}:${PWD}/core"
 
-srun python3 -Wignore AIGVDetEval.py \
-         --data_root "${data_root}" \
-         --data_csv "${data_entry_csv}" \
-         --done_csv_list "${done_csv[@]}" \
-         --pred_csv "${result_dir}/predictions.csv" \
-         --model_original_path "${model_original}" \
-         --model_optical_flow_path "${model_optical_flow}" \
-         --raft_model "${raft_model}"
+#srun python3 -Wignore AIGVDetEval.py \
+#         --data_root "${data_root}" \
+#         --data_csv "${data_entry_csv}" \
+#         --done_csv_list "${done_csv[@]}" \
+#         --pred_csv "${result_dir}/predictions.csv" \
+#         --model_original_path "${model_original}" \
+#         --model_optical_flow_path "${model_optical_flow}" \
+#         --raft_model "${raft_model}"
+srun torchrun \
+--standalone --nproc_per_node="${SLURM_GPUS_ON_NODE:-1}" AIGVDetEval.py \
+--data_root ${data_root} \
+--data_csv ${data_entry_csv} \
+--done_csv_list "${done_csv[@]}" \
+--pred_csv "${result_dir}/predictions.csv" \
+--model_original_path "${model_original}" \
+--model_optical_flow_path "${model_optical_flow}" \
+--raft_model "${raft_model}"
 
 EXIT_CODE=$?
 
